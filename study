@@ -24,6 +24,19 @@
 - `git commit -m "..."` — сделать коммит.
 - `git remote add origin <url>` — привязать к GitHub.
 - `git push -u origin master` — отправить на GitHub.
+## Клонирование репозитория с GitHub
+
+- `git clone <url>` — скачивает (клонирует) весь репозиторий с GitHub в текущую папку.
+- Чтобы скачать в конкретную папку, добавь путь после URL:
+  ```bash
+  git clone https://github.com/andima2021/study.git ~/study
+text
+###Сохраняем и отправляем в Git
+
+```bash
+git add git-basics.md
+git commit -m "Добавлен раздел про git clone"
+git push origin master
 
 ## 4. Сеть
 - `ip a` — показать IP-адреса.
