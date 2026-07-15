@@ -70,7 +70,18 @@
 - `chown <пользователь> <файл>` — сменить владельца.
 - `chown <пользователь>:<группа> <файл>` — сменить владельца и группу.
 
-## 8. SSH-ключи
-- `ssh-keygen -t ed25519 -C "комментарий"` — создать SSH-ключ.
-- `cat ~/.ssh/id_ed25519.pub` — показать публичный ключ.
-- `ssh -T git@github.com` — проверить ключ на GitHub.
+## 8. SSH
+### Установка и запуск
+- `sudo apt install openssh-server -y` — установить SSH-сервер.
+- `sudo systemctl start ssh` — запустить SSH.
+- `sudo systemctl status ssh` — проверить статус.
+
+### Подключение с ноутбука
+1. На ПК: проброс порта `2222 → 22` в VMware (NAT Settings).
+2. На ПК: открыть порт `2222` в брандмауэре Windows (`wf.msc`).
+3. На ноутбуке: `ssh andima2026@<IP_ПК> -p 2222`.
+
+## 9. Статический IP
+- `sudo nano /etc/netplan/00-installer-config.yaml` — открыть конфиг.
+- `sudo netplan apply` — применить настройки.
+- `ip a` — проверить, что IP зафиксирован.
