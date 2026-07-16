@@ -28,7 +28,8 @@
 - `git remote add origin <url>` — привязать к GitHub.
 - `git remote set-url origin git@github.com:andima2021/study.git` — переключить на SSH.
 - `git push` — отправить на GitHub.
-
+- `git clone <url>` — клонирует репозиторий с GitHub в текущую папку.
+- `git pull` — скачивает последние изменения из удалённого репозитория.
 ## 5. Сеть
 - `ip a` — показать IP-адреса.
 - `ping -c 4 <хост>` — проверить доступность хоста.
