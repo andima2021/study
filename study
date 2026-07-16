@@ -86,3 +86,9 @@
 - `sudo nano /etc/netplan/00-installer-config.yaml` — открыть конфиг.
 - `sudo netplan apply` — применить настройки.
 - `ip a` — проверить, что IP зафиксирован.
+## SSH-ключи (шпаргалка)
+ssh-keygen -t ed25519 -C "комментарий"
+cat ~/.ssh/id_ed25519.pub
+# добавить на GitHub
+git remote set-url origin git@github.com:andima2021/study.git
+git push
