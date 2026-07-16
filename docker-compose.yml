@@ -1,15 +1,6 @@
-## Docker Compose (полный разбор)
-
-- `docker compose up -d` — запустить все контейнеры из файла.
-- `docker compose down` — остановить всё.
-- `docker ps` — проверить, что контейнеры работают.
-
-## Файл `docker-compose.yml` (структура)
-\`\`\`yaml
 services:
   web:
     image: nginx:latest
     container_name: my-nginx
     ports:
       - "8081:80"
-\`\`\`
