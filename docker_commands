@@ -147,3 +147,13 @@ volumes:
 ```
 
 
+## Сохранение данных Grafana через том
+
+Чтобы данные Grafana (источники данных, дашборды) не пропадали при `docker compose down`, добавь в `docker-compose.yml`:
+
+```yaml
+  grafana:
+    image: grafana/grafana:latest
+    container_name: my-grafana
+    volumes:
+      - grafana-data:/var/lib/grafana

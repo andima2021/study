@@ -16,7 +16,8 @@ services:
     ports:
       - "3000:3000"
     restart: unless-stopped
-
+    volumes:
+      - grafana-data:/var/lib/grafana
   mysql:
     image: mysql:latest
     container_name: my-mysql
@@ -82,6 +83,7 @@ services:
 
 volumes:
   portainer-data:
+  grafana-data:
 
 networks:
   monitoring-net:
