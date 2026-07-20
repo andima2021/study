@@ -1,12 +1,91 @@
-# Основы Docker (шпаргалка с объяснениями)
+Отлично! Я соберу **всё изученное** в **один итоговый файл `study`**, который ты сможешь использовать как **полную шпаргалку**: от команд Linux до Docker.
 
-## 1. Базовые команды (Nginx)
+---
 
+### Обновлённый файл `study` (всё в одном)
+
+**Открой файл:**
+```bash
+nano ~/study/study
+```
+
+**Удали всё содержимое** и **вставь этот полный текст**:
+
+```markdown
+# Полная шпаргалка (всё в одном)
+
+## 1. Основы Linux
+
+### Навигация
+- `pwd` — показать текущую папку.
+- `ls` — список файлов и папок.
+- `ls -la` — все файлы (включая скрытые) с правами.
+- `cd <папка>` — перейти в папку.
+- `cd ..` — на одну папку вверх.
+- `mkdir <папка>` — создать пустую папку.
+- `mkdir -p <путь>` — создать вложенные папки.
+- `rm -rf <папка>` — удалить папку со всем содержимым (без подтверждения).
+
+### Работа с файлами
+- `nano <файл>` — открыть редактор (сохранить: `Ctrl+O`, выйти: `Ctrl+X`).
+- `cat <файл>` — показать содержимое файла.
+- `touch <файл>` — создать пустой файл.
+- `echo "текст" > <файл>` — записать текст в файл (перезаписывает).
+- `echo "текст" >> <файл>` — добавить текст в конец файла.
+
+### Git (базовый цикл)
+- `git init` — создать репозиторий.
+- `git add .` — добавить все файлы.
+- `git commit -m "..."` — сделать коммит.
+- `git remote add origin <url>` — привязать к GitHub.
+- `git remote set-url origin git@github.com:andima2021/study.git` — переключить на SSH.
+- `git push` — отправить на GitHub.
+- `git pull` — скачать изменения с GitHub.
+- `git clone <url>` — склонировать репозиторий.
+
+### SSH-ключи
+- `ssh-keygen -t ed25519 -C "комментарий"` — создать ключ.
+- `cat ~/.ssh/id_ed25519.pub` — показать публичный ключ.
+- Добавить ключ на GitHub (Settings → SSH and GPG keys → New SSH key).
+
+### Сеть
+- `ip a` — показать IP-адреса.
+- `ping -c 4 <хост>` — проверить доступность.
+- `nslookup <хост>` — узнать IP-адрес.
+- `telnet <хост> <порт>` — проверка порта (выход: `Ctrl+]` → `quit`).
+- `sudo ss -tulpn` — показать открытые порты.
+- `sudo ss -tulpn | grep <порт>` — найти процесс по порту.
+
+### Процессы
+- `ps aux` — показать все процессы.
+- `ps aux | grep <имя>` — найти процесс по имени.
+- `top` — мониторинг в реальном времени (выход: `q`).
+- `htop` — улучшенная версия `top`.
+
+### Права доступа
+- `ls -l` — показать права.
+- `chmod u+x <файл>` — дать владельцу исполнение.
+- `chmod 755 <файл>` — владелец всё, остальные чтение+исполнение.
+- `chown <пользователь> <файл>` — сменить владельца.
+
+### SSH (закрепление)
+- `sudo systemctl status ssh` — проверить статус.
+- `sudo apt install openssh-server -y` — установить.
+- `sudo ss -tulpn | grep 22` — проверить порт.
+
+---
+
+## 2. Основы Docker
+
+### Базовые команды (Nginx)
+```
+docker run -d -p 8080:80 --name my-nginx nginx:latest
+```
 - `docker run` — запустить контейнер.
 - `-d` — запустить в фоне (терминал не блокируется).
 - `-p 8080:80` — проброс портов:
   - `8080` — порт снаружи (на виртуалке).
-  - `80` — порт внутри контейнера (Nginx).
+  - `80` — порт внутри контейнера.
 - `--name my-nginx` — дать имя контейнеру.
 - `nginx:latest` — использовать образ Nginx (последняя версия).
 
@@ -14,17 +93,57 @@
 - `docker network prune -f` — очистить старые сети.
 - Использовать другой свободный порт (например, `8081`).
 
----
+### Docker Compose (управление несколькими контейнерами)
 
-## 2. Docker Compose (управление несколькими контейнерами)
+#### Файл `docker-compose.yml`
+```
+services:
+  web:
+    image: nginx:latest
+    container_name: my-nginx
+    ports:
+      - "8081:80"
+  grafana:
+    image: grafana/grafana:latest
+    container_name: my-grafana
+    ports:
+      - "3000:3000"
+    restart: unless-stopped
+  mysql:
+    image: mysql:latest
+    container_name: my-mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: rootpass123
+      MYSQL_DATABASE: testdb
+      MYSQL_USER: testuser
+      MYSQL_PASSWORD: testpass123
+    ports:
+      - "3306:3306"
+    restart: unless-stopped
+  portainer:
+    image: portainer/portainer-ce:latest
+    container_name: my-portainer
+    ports:
+      - "8000:8000"
+      - "9443:9443"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - portainer-data:/data
+    restart: unless-stopped
 
-### Файл `docker-compose.yml`
+volumes:
+  portainer-data:
+```
 
-### Команды для работы с Compose
+#### Команды для Compose
 - `docker compose up -d` — запустить все контейнеры из файла.
 - `docker compose down` — остановить все контейнеры.
-- `docker ps` — посмотреть список запущенных контейнеров.
+- `docker ps` — посмотреть запущенные контейнеры.
 
-### Важно!
-- **`container_name`** пишется через подчёркивание (`_`), а не через дефис.
-- **`volumes:`** в конце файла обязательно для сохранения данных.
+### Очистка системы
+- `docker system prune -a -f` — очистить неиспользуемые образы и контейнеры.
+- `docker volume prune -f` — очистить неиспользуемые тома.
+- `docker volume rm <том1> <том2>` — удалить конкретные тома вручную.
+```
+
+

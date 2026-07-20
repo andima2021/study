@@ -31,5 +31,19 @@ services:
       - /var/run/docker.sock:/var/run/docker.sock
       - portainer-data:/data
     restart: unless-stopped
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: my-prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    restart: unless-stopped
+  node-exporter:
+    image: prom/node-exporter:latest
+    container_name: my-node-exporter
+    ports:
+      - "9100:9100"
+    restart: unless-stopped
 volumes:
   portainer-data:
