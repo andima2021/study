@@ -157,3 +157,11 @@ volumes:
     container_name: my-grafana
     volumes:
       - grafana-data:/var/lib/grafana
+
+Элемент команды	Что значит простыми словами
+docker run	Запустить временный компьютер
+--rm	Удалить его после работы
+-v grafana-data:/source	Подключить данные Графаны в папку /source внутри контейнера
+-v $(pwd):/backup	Подключить твою текущую папку в папку /backup внутри контейнера
+alpine	Использовать очень лёгкую ОС для этой задачи
+tar czf ...	Создать сжатый архив из всех файлов в /source и положить в /backup
